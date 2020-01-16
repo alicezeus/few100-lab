@@ -20,7 +20,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">$</span>
                 </div>
-                <input type="text"
+                <input type="number"
                        class="form-control"
                        id="amount"
                        required>
@@ -28,7 +28,20 @@
             <div class="tip">10%</div>
             <div class="tip">15%</div>
             <div class="tip">20%</div>
-            <p>You are tipping <span></span></p>
+            <p>You are tipping <span id="currentTip"></span></p>
+
+            <div class="show">
+                <p>Bill Amount: <span id="billAmount"></span></p>
+            </div>
+            <div class="show">
+                <p>Tip Percentage: <span id="tipPerentage"></span></p>
+            </div>
+            <div class="show">
+                <p>Amount of Tip: <span id="amountTip"></span></p>
+            </div>
+            <div class="show">
+                <p>Total to be Paid: <span id="total"></span></p>
+            </div>
         </main>
     </div>
 </body>
