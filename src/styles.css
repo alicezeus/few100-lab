@@ -1,3 +1,19 @@
 h1 {
-    color:red;
+    color:black;
+    float: left;
+}
+.container {
+    max-width: 960px;
+  }
+.tip{
+    background-color:gray;
+    width: 5%;
+    float: left;
+    color: white;
+    margin-top: 3%;
+    text-align: center;
+}
+.tip.selected
+{
+    background-color:lightgray;
 }
