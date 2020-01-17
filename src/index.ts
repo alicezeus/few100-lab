@@ -12,7 +12,7 @@ const total = document.getElementById('total') as HTMLSpanElement;
 
 let percent = parseInt(localStorage.getItem('storePerentage'), 10);
 amount.addEventListener('blur', amountCheck, true);
-let bill = 0;
+let bill = amount.valueAsNumber;
 
 currentTip.innerText = `${percent}%`;
 
@@ -28,6 +28,7 @@ tips.forEach(t => {
 function handleClick() {
     const that = this as HTMLDivElement;
     currentTip.innerText = that.innerHTML;
+    bill = amount.valueAsNumber;
 
     percent = parseInt(currentTip.innerText.replace('%', '').trimLeft(), 10);
     localStorage.setItem('storePerentage', percent.toString());
@@ -41,8 +42,9 @@ function handleClick() {
             t.classList.remove('selected');
         }
     });
-
-    calculateTip();
+    if (!isNaN(bill)) {
+        calculateTip();
+    }
 }
 
 function amountCheck() {
@@ -52,16 +54,15 @@ function amountCheck() {
     bill = amount.valueAsNumber;
     currentTip.innerText = `${percent}%`;
 
-    if (!regex.test(amount.value) && !isNaN(bill)) {
+    if (regex.test(amount.value)) {
+        that.classList.remove('error');
+        calculateTip();
+    } else {
         that.classList.add('error');
         billAmount.innerText = ``;
         tipPerentage.innerText = ``;
         amountTip.innerText = ``;
         total.innerText = ``;
-
-    } else {
-        that.classList.remove('error');
-        calculateTip();
     }
 }
 
