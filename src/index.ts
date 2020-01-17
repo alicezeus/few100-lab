@@ -17,30 +17,52 @@ currentTip.innerText = `${percent}%`;
 
 tips.forEach(t => {
     if (t.innerText === currentTip.innerText) {
-        t.classList.toggle('selected');
+        t.classList.add('selected');
+    } else {
+        t.addEventListener('click', handleClick);
+        t.classList.remove('selected');
     }
-    t.addEventListener('click', handleClick);
 });
 
 function handleClick() {
     const that = this as HTMLDivElement;
-    that.classList.toggle('selected');
-
     currentTip.innerText = that.innerHTML;
 
     percent = parseInt(currentTip.innerText.replace('%', '').trimLeft(), 10);
     localStorage.setItem('storePerentage', percent.toString());
-    calculateTip();
+
+    tips.forEach(t => {
+        if (t.innerText === currentTip.innerText) {
+            t.classList.add('selected');
+            t.removeEventListener('click', handleClick);
+        } else {
+            t.addEventListener('click', handleClick);
+            t.classList.remove('selected');
+        }
+    });
 }
 
 function calculateTip() {
 
-    const tipAmount = tip(amount.valueAsNumber, percent);
-    billAmount.innerText = `$${amount.value.toString()}`;
-    tipPerentage.innerText = `${percent}%`;
+    const that = this as HTMLDivElement;
+
+    const bill = amount.valueAsNumber;
     currentTip.innerText = `${percent}%`;
-    amountTip.innerText = tipAmount.toString();
-    total.innerText = add(amount.valueAsNumber, tipAmount).toString();
+
+    if (!isNaN(bill)) {
+        that.classList.remove('error');
+        const tipAmount = tip(bill, percent);
+        billAmount.innerText = `$${amount.value.toString()}`;
+        tipPerentage.innerText = `${percent}%`;
+        amountTip.innerText = tipAmount.toString();
+        total.innerText = add(bill, tipAmount).toString();
+    } else {
+        that.classList.add('error');
+        billAmount.innerText = ``;
+        tipPerentage.innerText = ``;
+        amountTip.innerText = ``;
+        total.innerText = ``;
+    }
 
 }
 

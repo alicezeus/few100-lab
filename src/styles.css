@@ -2,6 +2,10 @@ h1 {
     color:black;
     float: left;
 }
+.form-control.error{
+    border-style: solid;
+    border-color: red;
+}
 .container {
     max-width: 960px;
   }
@@ -14,9 +18,13 @@ h1 {
     text-align: center;
 }
 .tip.selected
-{
+{    
     background-color:lightgray;
 }
 .show{
-    border: 1em;
+    border-style: solid;
+    border: 1px;
+}
+.p{
+    margin-top: 5em;
 }
