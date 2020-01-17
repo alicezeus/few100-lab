@@ -11,7 +11,8 @@ const amountTip = document.getElementById('amountTip') as HTMLSpanElement;
 const total = document.getElementById('total') as HTMLSpanElement;
 
 let percent = parseInt(localStorage.getItem('storePerentage'), 10);
-amount.addEventListener('blur', calculateTip, true);
+amount.addEventListener('blur', amountCheck, true);
+let bill = 0;
 
 currentTip.innerText = `${percent}%`;
 
@@ -40,30 +41,35 @@ function handleClick() {
             t.classList.remove('selected');
         }
     });
+
+    calculateTip();
 }
 
-function calculateTip() {
+function amountCheck() {
+    const regex = /^[1-9]\d*(((,\d{3}){1})?(\.\d{0,2})?)$/;
 
     const that = this as HTMLDivElement;
-
-    const bill = amount.valueAsNumber;
+    bill = amount.valueAsNumber;
     currentTip.innerText = `${percent}%`;
 
-    if (!isNaN(bill)) {
-        that.classList.remove('error');
-        const tipAmount = tip(bill, percent);
-        billAmount.innerText = `$${amount.value.toString()}`;
-        tipPerentage.innerText = `${percent}%`;
-        amountTip.innerText = tipAmount.toString();
-        total.innerText = add(bill, tipAmount).toString();
-    } else {
+    if (!regex.test(amount.value) && !isNaN(bill)) {
         that.classList.add('error');
         billAmount.innerText = ``;
         tipPerentage.innerText = ``;
         amountTip.innerText = ``;
         total.innerText = ``;
-    }
 
+    } else {
+        that.classList.remove('error');
+        calculateTip();
+    }
 }
 
+function calculateTip() {
+    const tipAmount = tip(bill, percent);
+    billAmount.innerText = `$${amount.value.toString()}`;
+    tipPerentage.innerText = `${percent}%`;
+    amountTip.innerText = tipAmount.toFixed(2);
+    total.innerText = add(bill, tipAmount).toFixed(2);
+}
 
